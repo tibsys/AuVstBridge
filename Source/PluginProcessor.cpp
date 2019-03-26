@@ -215,7 +215,11 @@ bool NewProjectAudioProcessor::loadVSTPlugin()
     KnownPluginList plist;
     AudioPluginFormatManager pluginFormatManager;
     pluginFormatManager.addDefaultFormats();
-    String pluginPath = "/Library/Audio/Plug-Ins/";
+#ifdef _MSC_VER
+	String pluginPath = "C:\\Users\\tristan.israel\\Downloads\\PG-8X_2.0.12_Win64\\";
+#else
+	String pluginPath = "/Library/Audio/Plug-Ins/";
+#endif
     
     if(pluginFormatManager.getNumFormats() == 0) {
         return false;

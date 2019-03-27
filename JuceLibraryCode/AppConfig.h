@@ -57,6 +57,7 @@
 #define JUCE_MODULE_AVAILABLE_juce_core                     1
 #define JUCE_MODULE_AVAILABLE_juce_cryptography             1
 #define JUCE_MODULE_AVAILABLE_juce_data_structures          1
+#define JUCE_MODULE_AVAILABLE_juce_dsp                      1
 #define JUCE_MODULE_AVAILABLE_juce_events                   1
 #define JUCE_MODULE_AVAILABLE_juce_graphics                 1
 #define JUCE_MODULE_AVAILABLE_juce_gui_basics               1
@@ -89,7 +90,7 @@
 #endif
 
 #ifndef    JUCE_ALSA
- //#define JUCE_ALSA 1
+ #define   JUCE_ALSA 0
 #endif
 
 #ifndef    JUCE_JACK
@@ -170,7 +171,7 @@
 #endif
 
 #ifndef    JUCE_PLUGINHOST_AU
- //#define JUCE_PLUGINHOST_AU 0
+ #define   JUCE_PLUGINHOST_AU 1
 #endif
 
 #ifndef    JUCE_PLUGINHOST_LADSPA
@@ -229,6 +230,29 @@
 
 #ifndef    JUCE_STRICT_REFCOUNTEDPOINTER
  #define   JUCE_STRICT_REFCOUNTEDPOINTER 1
+#endif
+
+//==============================================================================
+// juce_dsp flags:
+
+#ifndef    JUCE_ASSERTION_FIRFILTER
+ //#define JUCE_ASSERTION_FIRFILTER 1
+#endif
+
+#ifndef    JUCE_DSP_USE_INTEL_MKL
+ //#define JUCE_DSP_USE_INTEL_MKL 0
+#endif
+
+#ifndef    JUCE_DSP_USE_SHARED_FFTW
+ //#define JUCE_DSP_USE_SHARED_FFTW 0
+#endif
+
+#ifndef    JUCE_DSP_USE_STATIC_FFTW
+ //#define JUCE_DSP_USE_STATIC_FFTW 0
+#endif
+
+#ifndef    JUCE_DSP_ENABLE_SNAP_TO_ZERO
+ //#define JUCE_DSP_ENABLE_SNAP_TO_ZERO 1
 #endif
 
 //==============================================================================
@@ -308,7 +332,7 @@
  #define JucePlugin_Build_AU               1
 #endif
 #ifndef  JucePlugin_Build_AUv3
- #define JucePlugin_Build_AUv3             1
+ #define JucePlugin_Build_AUv3             0
 #endif
 #ifndef  JucePlugin_Build_RTAS
  #define JucePlugin_Build_RTAS             0
@@ -347,7 +371,7 @@
  #define JucePlugin_PluginCode             0x58357235 // 'X5r5'
 #endif
 #ifndef  JucePlugin_IsSynth
- #define JucePlugin_IsSynth                0
+ #define JucePlugin_IsSynth                1
 #endif
 #ifndef  JucePlugin_WantsMidiInput
  #define JucePlugin_WantsMidiInput         1
@@ -356,7 +380,7 @@
  #define JucePlugin_ProducesMidiOutput     1
 #endif
 #ifndef  JucePlugin_IsMidiEffect
- #define JucePlugin_IsMidiEffect           0
+ #define JucePlugin_IsMidiEffect           1
 #endif
 #ifndef  JucePlugin_EditorRequiresKeyboardFocus
  #define JucePlugin_EditorRequiresKeyboardFocus  0
@@ -377,7 +401,7 @@
  #define JucePlugin_VSTCategory            kPlugCategUnknown
 #endif
 #ifndef  JucePlugin_Vst3Category
- #define JucePlugin_Vst3Category           "Fx|Tools"
+ #define JucePlugin_Vst3Category           "Instrument|Synth"
 #endif
 #ifndef  JucePlugin_AUMainType
  #define JucePlugin_AUMainType             'aumi'
@@ -398,7 +422,7 @@
  #define JucePlugin_CFBundleIdentifier     com.yourcompany.VSTAUBridge
 #endif
 #ifndef  JucePlugin_RTASCategory
- #define JucePlugin_RTASCategory           0
+ #define JucePlugin_RTASCategory           2048
 #endif
 #ifndef  JucePlugin_RTASManufacturerCode
  #define JucePlugin_RTASManufacturerCode   JucePlugin_ManufacturerCode
@@ -422,7 +446,7 @@
  #define JucePlugin_AAXProductId           JucePlugin_PluginCode
 #endif
 #ifndef  JucePlugin_AAXCategory
- #define JucePlugin_AAXCategory            0
+ #define JucePlugin_AAXCategory            2048
 #endif
 #ifndef  JucePlugin_AAXDisableBypass
  #define JucePlugin_AAXDisableBypass       0
@@ -431,7 +455,7 @@
  #define JucePlugin_AAXDisableMultiMono    0
 #endif
 #ifndef  JucePlugin_IAAType
- #define JucePlugin_IAAType                0x6175726d // 'aurm'
+ #define JucePlugin_IAAType                0x61757269 // 'auri'
 #endif
 #ifndef  JucePlugin_IAASubType
  #define JucePlugin_IAASubType             JucePlugin_PluginCode

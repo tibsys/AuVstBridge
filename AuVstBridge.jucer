@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="X5r57q" name="VST-AU-Bridge" projectType="audioplug" jucerVersion="5.4.3"
-              pluginCharacteristicsValue="pluginProducesMidiOut,pluginWantsMidiIn"
-              pluginName="AU-VST-Bridge" pluginVST3Category="Tools" pluginVSTCategory="kPlugCategUnknown"
-              cppLanguageStandard="11" pluginFormats="buildAU,buildAUv3,buildStandalone,buildVST3"
+              pluginCharacteristicsValue="pluginIsMidiEffectPlugin,pluginIsSynth,pluginProducesMidiOut,pluginWantsMidiIn"
+              pluginName="AU-VST-Bridge" pluginVST3Category="Synth" pluginVSTCategory="kPlugCategUnknown"
+              cppLanguageStandard="11" pluginFormats="buildAU,buildStandalone,buildVST3"
               pluginAUMainType="'aumi'" pluginAUIsSandboxSafe="1">
   <MAINGROUP id="MHnwT5" name="VST-AU-Bridge">
     <GROUP id="{1F68E7AE-4814-2834-D64E-A5724D78EBB1}" name="Source">
-      <FILE id="gpqEnR" name="PluginProcessor.cpp" compile="1" resource="0"
-            file="Source/PluginProcessor.cpp"/>
-      <FILE id="xw6lKQ" name="PluginProcessor.h" compile="0" resource="0"
-            file="Source/PluginProcessor.h"/>
+      <FILE id="mIYowT" name="DebugTools.h" compile="0" resource="0" file="Source/DebugTools.h"/>
+      <FILE id="wQRxL9" name="MainProcessor.cpp" compile="1" resource="0"
+            file="Source/MainProcessor.cpp"/>
+      <FILE id="wR79IY" name="MainProcessor.h" compile="0" resource="0" file="Source/MainProcessor.h"/>
+      <FILE id="X73Qde" name="VSTPluginsHelper.hpp" compile="0" resource="0"
+            file="Source/VSTPluginsHelper.hpp"/>
       <FILE id="Ax9Bnb" name="PluginEditor.cpp" compile="1" resource="0"
             file="Source/PluginEditor.cpp"/>
       <FILE id="epHk5Y" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
@@ -37,6 +39,7 @@
         <MODULEPATH id="juce_gui_basics" path="../../../../../Applications/Developpement/JUCE/modules"/>
         <MODULEPATH id="juce_gui_extra" path="../../../../../Applications/Developpement/JUCE/modules"/>
         <MODULEPATH id="juce_opengl" path="../../../../../Applications/Developpement/JUCE/modules"/>
+        <MODULEPATH id="juce_dsp" path="../../../Applications/JUCE/modules"/>
       </MODULEPATHS>
     </XCODE_MAC>
     <VS2017 targetFolder="Builds/VisualStudio2017" vstLegacyFolder="Dependencies\vst2sdk"
@@ -60,6 +63,7 @@
         <MODULEPATH id="juce_audio_formats" path="..\..\..\Applications\JUCE\modules"/>
         <MODULEPATH id="juce_audio_devices" path="..\..\..\Applications\JUCE\modules"/>
         <MODULEPATH id="juce_audio_basics" path="..\..\..\Applications\JUCE\modules"/>
+        <MODULEPATH id="juce_dsp" path="../../../Applications/JUCE/modules"/>
       </MODULEPATHS>
     </VS2017>
   </EXPORTFORMATS>
@@ -74,6 +78,7 @@
     <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_cryptography" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_dsp" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_events" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
@@ -85,5 +90,6 @@
     <WINDOWS/>
   </LIVE_SETTINGS>
   <JUCEOPTIONS JUCE_VST3_CAN_REPLACE_VST2="0" JUCE_STRICT_REFCOUNTEDPOINTER="1"
-               JUCE_PLUGINHOST_VST3="1" JUCE_PLUGINHOST_VST="1"/>
+               JUCE_PLUGINHOST_VST3="1" JUCE_PLUGINHOST_AU="1" JUCE_ALSA="0"
+               JUCE_PLUGINHOST_VST="1"/>
 </JUCERPROJECT>

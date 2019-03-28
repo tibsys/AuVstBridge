@@ -17,11 +17,11 @@
 //==============================================================================
 /**
 */
-class NewProjectAudioProcessorEditor  : public AudioProcessorEditor
+class ProcessorEditor  : public AudioProcessorEditor
 {
 public:
-    NewProjectAudioProcessorEditor (MainProcessor&);
-    ~NewProjectAudioProcessorEditor();
+	ProcessorEditor(MainProcessor&);
+    ~ProcessorEditor();
 
     //==============================================================================
     //void paint (Graphics&) override;
@@ -33,9 +33,9 @@ private:
     // access the processor object that created it.
     MainProcessor& processor_;
 
-	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(NewProjectAudioProcessorEditor)
+	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ProcessorEditor)
 
-	void setupUi();
+	void setupUi();	
 
 	ComboBox pluginsCombobox_;
 	Label pluginsComboBoxLabel_;
@@ -43,5 +43,7 @@ private:
 
 	VSTPluginsHelper vstPluginsHelper_;
 	std::shared_ptr<KnownPluginList> knownPlugins_;
-	AudioProcessorEditor *pluginEditor_ = nullptr;
+	AudioProcessorEditor *pluginEditor_ = nullptr;	
+
+	int currentPluginId_ = 0;
 };

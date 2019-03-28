@@ -9,7 +9,7 @@
 */
 
 #include "MainProcessor.h"
-#include "PluginEditor.h"
+#include "ProcessorEditor.h"
 
 //==============================================================================
 MainProcessor::MainProcessor()
@@ -101,11 +101,10 @@ void MainProcessor::processBlock(AudioBuffer<float>& buffer, MidiBuffer& midiMes
 		buffer.clear(i, 0, buffer.getNumSamples());
 	}
 
-	/*if (pluginInstance_ != nullptr && !pluginInitialized_) {
-		updateGraph();
-	}*/
-
-	audioProcessorGraph_->processBlock(buffer, midiMessages);
+	/*if(pluginInitialized_) 
+		audioProcessorGraph_->processBlock(buffer, midiMessages);*/
+	if(pluginInitialized_) 
+		pluginInstance_->processBlock(buffer, midiMessages);
 }
 
 void MainProcessor::releaseResources()
@@ -139,8 +138,8 @@ bool MainProcessor::hasEditor() const
 
 AudioProcessorEditor* MainProcessor::createEditor()
 {	
-	//This editor will be used to select and configure plugin to be hosted
-    return new NewProjectAudioProcessorEditor (*this);
+	//This editor will be used to select and configure plugin to be hosted	
+	return new ProcessorEditor(*this);	
 }
 
 //==============================================================================
@@ -230,9 +229,9 @@ void MainProcessor::updateGraph()
 		audioProcessorGraph_->removeConnection(connection);
 	}
 
-	//Reset plugin config details
-	pluginInstance_->setPlayConfigDetails(getMainBusNumInputChannels(), getMainBusNumOutputChannels(), getSampleRate(), getBlockSize());
-	//audioProcessorGraph_->prepareToPlay(getSampleRate(), getBlockSize());
+	//Reset plugin config details and prepare to play
+	pluginInstance_->setPlayConfigDetails(getMainBusNumInputChannels(), getMainBusNumOutputChannels(), getSampleRate(), getBlockSize());	
+	pluginInstance_->prepareToPlay(getSampleRate(), getBlockSize());
 	
 	//Connect the inputs and outputs to the plugin inputs and outputs	
 	for (int channel = 0; channel < 2; ++channel) {
@@ -241,7 +240,7 @@ void MainProcessor::updateGraph()
 				{ audioInputNode_->nodeID, channel },
 				{ pluginNode_->nodeID, channel }
 			}
-		);		
+		);	
 		audioProcessorGraph_->addConnection( //Plugin output to audio output
 			{ 
 				{ pluginNode_->nodeID, channel },
@@ -256,9 +255,10 @@ void MainProcessor::updateGraph()
 	connectMidiNodes();
 
 	//Enable all buses in the plugin
-	pluginInstance_->enableAllBuses();
+	pluginInstance_->enableAllBuses();	
 
 	pluginInitialized_ = true;
+	DebugTools::log("Graph initialized");
 }
 
 //==============================================================================
@@ -267,47 +267,3 @@ AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new MainProcessor();
 }
-
-/*bool NewProjectAudioProcessor::loadVSTPlugin()
-{
-    KnownPluginList plist;
-    AudioPluginFormatManager pluginFormatManager;
-    pluginFormatManager.addDefaultFormats();
-
-    if(pluginFormatManager.getNumFormats() == 0) {
-        return false;
-    }
-    
-    VSTPluginFormat vstFormat;
-    DebugTools::log(std::stringstream() << "Search path: " << vstFormat.getDefaultLocationsToSearch().toString());
-    PluginDirectoryScanner scanner(plist, vstFormat, vstFormat.getDefaultLocationsToSearch(), false, File());
-    
-    String pluginName;
-    while(true) {
-        String nextname = scanner.getNextPluginFileThatWillBeScanned();
-		DebugTools::log(std::stringstream() << "Plugin: " << nextname);
-        if (scanner.scanNextFile(true, pluginName)==false)
-            break;
-    }
-    
-    if(plist.getNumTypes() == 0) {
-        return false;
-    }
-    PluginDescription *pluginDescription = plist.getType(0);
-	DebugTools::log(std::stringstream() << "Plugin category: " << pluginDescription->category);
-	DebugTools::log(std::stringstream() << "Plugin is instrument: " << pluginDescription->isInstrument);
-    String msg = "no error";
-    pluginInstance_ = pluginFormatManager.createPluginInstance(*pluginDescription,
-                                                               44100,
-                                                               512,
-                                                               msg);
-    if(pluginInstance_ == nullptr) {
-		DebugTools::log(std::stringstream() << "Error when loading the plugin: " << msg);
-    }
-    /*pluginEditor_ = pluginInstance_->createEditor();
-    auto bc = pluginEditor_->getConstrainer();
-    pluginEditor_->setBounds(0, 0, bc->getMinimumWidth(), bc->getMinimumHeight());
-    addAndMakeVisible (pluginEditor_);*/
-    
-    /*return true;
-}*/

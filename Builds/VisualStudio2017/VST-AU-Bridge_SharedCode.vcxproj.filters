@@ -457,7 +457,7 @@
     <ClCompile Include="..\..\Source\MainProcessor.cpp">
       <Filter>VST-AU-Bridge\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\PluginEditor.cpp">
+    <ClCompile Include="..\..\Source\ProcessorEditor.cpp">
       <Filter>VST-AU-Bridge\Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\Applications\JUCE\modules\juce_audio_basics\buffers\juce_AudioChannelSet.cpp">
@@ -2514,7 +2514,7 @@
     <ClInclude Include="..\..\Source\VSTPluginsHelper.hpp">
       <Filter>VST-AU-Bridge\Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\PluginEditor.h">
+    <ClInclude Include="..\..\Source\ProcessorEditor.h">
       <Filter>VST-AU-Bridge\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\Applications\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h">

@@ -23,7 +23,7 @@ private:
 	};
 
 	void addVST3PluginsToPluginsList(std::shared_ptr<KnownPluginList>& list) {
-		VSTPluginFormat vst3Format;
+		VST3PluginFormat vst3Format;
 		DebugTools::log("Scan VST3 plugins...");
 		DebugTools::log(std::stringstream() << "VST3 search path: " << vst3Format.getDefaultLocationsToSearch().toString());
 		PluginDirectoryScanner scanner(*list, vst3Format, vst3Format.getDefaultLocationsToSearch(), true, File());

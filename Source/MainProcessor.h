@@ -12,9 +12,13 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "DebugTools.h"
+//For testing only
+//#include "OscillatorProcessor.h"
 
 using AudioGraphIOProcessor = AudioProcessorGraph::AudioGraphIOProcessor;
 using Node = AudioProcessorGraph::Node;
+
+class ProcessorEditor;
 
 //==============================================================================
 /**
@@ -49,14 +53,14 @@ public:
 	//==============================================================================
 	void getStateInformation(MemoryBlock& destData) override;
 	void setStateInformation(const void* data, int sizeInBytes) override;
-
+	//==============================================================================
 	void setPluginInstance(AudioPluginInstance* instance) {
 		DebugTools::log(std::stringstream() << "setPluginInstance() called");
 		pluginInstance_ = instance;
-		updateGraph();
-		//updateHostDisplay();
+		updateGraph();		
 		processorLayoutsChanged();
 	}
+	AudioPluginInstance* getPluginInstance() const { return pluginInstance_; }
 
 private:
     //==============================================================================
@@ -74,7 +78,7 @@ private:
 	Node::Ptr midiInputNode_;
 	Node::Ptr midiOutputNode_;
 	Node::Ptr pluginNode_;
-
+	
 	bool pluginInitialized_ = false;
 	bool graphReady_ = false;
 };

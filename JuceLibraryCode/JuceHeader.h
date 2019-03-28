@@ -41,8 +41,8 @@
 namespace ProjectInfo
 {
     const char* const  projectName    = "VST-AU-Bridge";
-    const char* const  companyName    = "";
-    const char* const  versionString  = "1.0.0";
-    const int          versionNumber  = 0x10000;
+    const char* const  companyName    = "Tristan Israel";
+    const char* const  versionString  = "1.0.2";
+    const int          versionNumber  = 0x10002;
 }
 #endif

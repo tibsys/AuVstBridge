@@ -15,11 +15,13 @@ private:
 		String pluginName;
 		while (true) {
 			String nextname = scanner.getNextPluginFileThatWillBeScanned();
-			if (nextname == JucePlugin_Name)
-				continue;
+            if (nextname.equalsIgnoreCase(JucePlugin_Name)) {
+                scanner.skipNextFile();
+            }
 			DebugTools::log(std::stringstream() << "Found plugin: " << nextname);
-			if (scanner.scanNextFile(true, pluginName) == false)
+            if (scanner.scanNextFile(true, pluginName) == false) {
 				break;
+            }
 		}
 
 	};
@@ -33,8 +35,9 @@ private:
 		String pluginName;
 		while (true) {
 			String nextname = scanner.getNextPluginFileThatWillBeScanned();
-			if (nextname == JucePlugin_Name)
-				continue;
+            if (nextname.equalsIgnoreCase(JucePlugin_Name)) {
+                scanner.skipNextFile();
+            }
 			DebugTools::log(std::stringstream() << "Found plugin: " << nextname);
 			if (scanner.scanNextFile(true, pluginName) == false)
 				break;

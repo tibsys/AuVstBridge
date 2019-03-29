@@ -34,7 +34,7 @@ ProcessorEditor::ProcessorEditor (MainProcessor& p)
 	for (plugin_it = knownPlugins_->begin(); plugin_it < knownPlugins_->end(); plugin_it++) {
 		if (plugin_it != nullptr) {
 			PluginDescription *plugin = *plugin_it;
-			if (plugin == nullptr) continue;
+			if (plugin == nullptr || plugin->name.equalsIgnoreCase(JucePlugin_Name)) continue;
 			pluginsCombobox_.addItem(plugin->name, plugin->uid);
 		}
 	}		
@@ -100,10 +100,10 @@ ProcessorEditor::~ProcessorEditor()
 }
 
 //==============================================================================
-/*void ProcessorEditor::paint (Graphics& g)
+void ProcessorEditor::paint (Graphics& g)
 {
-   
-}*/
+    g.fillAll(Colours::black);
+}
 
 void ProcessorEditor::resized()
 {
@@ -112,6 +112,6 @@ void ProcessorEditor::resized()
 
 void ProcessorEditor::setupUi()
 {
-	
+    setOpaque(true);
 }
 

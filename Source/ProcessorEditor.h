@@ -24,7 +24,7 @@ public:
     ~ProcessorEditor();
 
     //==============================================================================
-    //void paint (Graphics&) override;
+    void paint (Graphics&) override;
     void resized() override;
 
 private:    

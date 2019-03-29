@@ -15,6 +15,8 @@ private:
 		String pluginName;
 		while (true) {
 			String nextname = scanner.getNextPluginFileThatWillBeScanned();
+			if (nextname == JucePlugin_Name)
+				continue;
 			DebugTools::log(std::stringstream() << "Found plugin: " << nextname);
 			if (scanner.scanNextFile(true, pluginName) == false)
 				break;
@@ -31,6 +33,8 @@ private:
 		String pluginName;
 		while (true) {
 			String nextname = scanner.getNextPluginFileThatWillBeScanned();
+			if (nextname == JucePlugin_Name)
+				continue;
 			DebugTools::log(std::stringstream() << "Found plugin: " << nextname);
 			if (scanner.scanNextFile(true, pluginName) == false)
 				break;
@@ -75,8 +79,7 @@ public:
 			if (plugin_it != nullptr) {
 				PluginDescription *pluginDescription = *plugin_it;
 				if (pluginDescription == nullptr) continue;
-				if (pluginDescription->uid == pluginId) {
-					
+				if (pluginDescription->uid == pluginId) {					
 					AudioPluginFormatManager pluginFormatManager;
 					pluginFormatManager.addDefaultFormats();
 					String msg = "no error";
@@ -98,6 +101,42 @@ public:
 		}
 
 		DebugTools::log(std::stringstream() << "Could not find plugin with ID " << pluginId);
+		return nullptr;
+	}
+
+	AudioPluginInstance* getPluginWithIdentifierString(String identifierString)
+	{
+		DebugTools::log(std::stringstream() << "Trying to load plugin with identifier string " << identifierString);
+		PluginDescription** plugin_it;
+
+		std::shared_ptr<KnownPluginList> pluginsList = this->pluginsList();
+
+		for (plugin_it = pluginsList->begin(); plugin_it < pluginsList->end(); plugin_it++) {
+			if (plugin_it != nullptr) {
+				PluginDescription *pluginDescription = *plugin_it;
+				if (pluginDescription == nullptr) continue;
+				if (pluginDescription->matchesIdentifierString(identifierString)) {
+					AudioPluginFormatManager pluginFormatManager;
+					pluginFormatManager.addDefaultFormats();
+					String msg = "no error";
+					AudioPluginInstance *pluginInstance = pluginFormatManager.createPluginInstance(*pluginDescription,
+						44100,
+						512,
+						msg);
+
+					if (pluginInstance == nullptr) {
+						DebugTools::log(std::stringstream() << "Error when loading the plugin: " << msg);
+					}
+
+					DebugTools::log("Plugin loaded");
+					DebugTools::log(std::stringstream() << "Plugin category: " << pluginDescription->category);
+					DebugTools::log(std::stringstream() << "Plugin is instrument: " << pluginDescription->isInstrument);
+					return pluginInstance;
+				}
+			}
+		}
+
+		DebugTools::log(std::stringstream() << "Could not find plugin with identifier string " << identifierString);
 		return nullptr;
 	}
 };

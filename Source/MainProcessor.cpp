@@ -40,37 +40,54 @@ bool MainProcessor::producesMidi() const
 double MainProcessor::getTailLengthSeconds() const
 {
 	DebugTools::log(std::stringstream() << "getTailLengthInSeconds() called");  
-	return audioProcessorGraph_->getTailLengthSeconds();    
+	if (pluginInstance_ != nullptr) {
+		return pluginInstance_->getTailLengthSeconds();
+	}
+	return 0.0;
 }
 
 int MainProcessor::getNumPrograms()
 {
 	DebugTools::log(std::stringstream() << "getNumPrograms() called");    
-	return audioProcessorGraph_->getNumPrograms();
+	if (pluginInstance_ != nullptr) {
+		return pluginInstance_->getNumPrograms();
+	} 
+
+	return 0;
 }
 
 int MainProcessor::getCurrentProgram()
 {
-	DebugTools::log(std::stringstream() << "getCurrentProgram() called");    
-	return audioProcessorGraph_->getCurrentProgram();
+	DebugTools::log(std::stringstream() << "getCurrentProgram() called"); 
+	if (pluginInstance_ != nullptr) {
+		return pluginInstance_->getCurrentProgram();
+	}
+	return 0;
 }
 
 void MainProcessor::setCurrentProgram (int index)
 {
 	DebugTools::log(std::stringstream() << "setCurrentProgram(" << index << ")");    
-	return audioProcessorGraph_->setCurrentProgram(index);
+	if (pluginInstance_ != nullptr) {
+		pluginInstance_->setCurrentProgram(index);
+	}
 }
 
 const String MainProcessor::getProgramName (int index)
 {
-	DebugTools::log(std::stringstream() << "getProgramName( " << index << ")");    
-	return audioProcessorGraph_->getProgramName(index);
+	DebugTools::log(std::stringstream() << "getProgramName( " << index << ")");   
+	if (pluginInstance_ != nullptr) {
+		return pluginInstance_->getProgramName(index);
+	}
+	return String{};
 }
 
 void MainProcessor::changeProgramName (int index, const String& newName)
 {
-	DebugTools::log(std::stringstream() << "changeProgramName(" << index << ", " << newName << ")");    
-	return audioProcessorGraph_->changeProgramName(index, newName);
+	DebugTools::log(std::stringstream() << "changeProgramName(" << index << ", " << newName << ")");   
+	if (pluginInstance_ != nullptr) {
+		pluginInstance_->changeProgramName(index, newName); 
+	}
 }
 
 //==============================================================================
@@ -102,7 +119,9 @@ void MainProcessor::releaseResources()
     // When playback stops, you can use this as an opportunity to free up any
     // spare memory, etc.
 	DebugTools::log("releaseResources() called");
-	audioProcessorGraph_->releaseResources();
+	if (pluginInstance_ != nullptr) {
+		pluginInstance_->releaseResources();
+	}
 }
 
 bool MainProcessor::isBusesLayoutSupported (const BusesLayout& layouts) const
@@ -136,15 +155,77 @@ AudioProcessorEditor* MainProcessor::createEditor()
 void MainProcessor::getStateInformation (MemoryBlock& destData)
 {
 	DebugTools::log(std::stringstream() << "getStateInformation() called");
-	audioProcessorGraph_->getStateInformation(destData);
+	//Here we must save the current state of the AU-VST plugin 
+	//as well as the state of the hosted plugin	
+	
+	//Our memory block layout is:
+	//Byte 0: is_initialised? 1=true|0=false - 1 byte
+	//** Byte 1-4: plugin description length (including \0) - 4 bytes
+	//Byte 5-n: plugin description string 
+	//** Byte n+1-n+4: plugin memory block length - 4 bytes
+	//Byte n+5: plugin memory block
+	MemoryBlock pluginData;
+	if (pluginInstance_ != nullptr) {
+		pluginInstance_->getStateInformation(pluginData);
+	}
+
+	MemoryOutputStream st(destData, true);
+	st.writeByte((pluginInstance_ == nullptr || !pluginInitialized_) ? 0 : 1); //1: plugin initialised?
+	String pluginIdentifierString;
+	if (pluginInstance_ != nullptr) {
+		pluginIdentifierString = pluginInstance_->getPluginDescription().createIdentifierString();
+	}
+	st.writeString(pluginIdentifierString); //2: plugin identifier string
+	st.write(pluginData.begin(), pluginData.getSize()); //3: plugin data
+
+	DebugTools::log(std::stringstream() << "Plugin block size: " << pluginData.getSize());
+	DebugTools::log(std::stringstream() << "Plugin block content: " << pluginData.toString());
+	DebugTools::log(std::stringstream() << "Memory block size: " << destData.getSize());
+	DebugTools::log(std::stringstream() << "Memory block content: " << destData.toString());
+	DebugTools::log(std::stringstream() << "Stream data size: " << st.getDataSize());
 }
 
 void MainProcessor::setStateInformation (const void* data, int sizeInBytes)
-{
+{	
 	DebugTools::log(std::stringstream() << "setStateInformation called. sizeInBytes= " << sizeInBytes);
-	audioProcessorGraph_->setStateInformation(data, sizeInBytes);
+	suspendProcessing(true);
+
+	MemoryInputStream st(data, sizeInBytes, false);	
+	DebugTools::log(std::stringstream() << "Stream data size: " << st.getDataSize());
+	
+	bool pluginInitialised = (st.readByte() == 0 ? false : true);
+	DebugTools::log(std::stringstream() << "Plugin initialised? " << (pluginInitialised ? "true" : "false"));
+	String pluginIdentifierString;
+	MemoryBlock pluginData;
+	if (pluginInitialised) {
+		pluginIdentifierString = st.readString();
+		st.readIntoMemoryBlock(pluginData);
+	}
+	DebugTools::log(std::stringstream() << "Plugin identifier string: " << pluginIdentifierString);
+	DebugTools::log(std::stringstream() << "Plugin block size: " << pluginData.getSize());
+	DebugTools::log(std::stringstream() << "Plugin block content: " << pluginData.toString());
+
+	//Now we load the plugin
+	if (!pluginIdentifierString.isEmpty()) {
+		//Before loading the plugin we need to unload the current if any		
+		if (pluginInstance_ == nullptr) {
+			VSTPluginsHelper vstPluginsHelper;
+			AudioPluginInstance * pluginInstance = vstPluginsHelper.getPluginWithIdentifierString(pluginIdentifierString);
+			if (pluginInstance != nullptr) {				
+				setPluginInstance(pluginInstance);				
+			}
+		}
+	}
+
+	//Finally we set the state of the plugin
+	if (pluginInstance_ != nullptr) {
+		pluginInstance_->setStateInformation(pluginData.getData(), pluginData.getSize());
+	}
+
+	suspendProcessing(false);
 }
 
+//==============================================================================
 void MainProcessor::initializeGraph()
 {
 	DebugTools::log("initializeGraph() called");

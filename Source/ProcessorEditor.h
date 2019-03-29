@@ -36,6 +36,8 @@ private:
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ProcessorEditor)
 
 	void setupUi();	
+	void resetPluginInstance(AudioPluginInstance *, bool changed = false);
+	void onPluginsComboboxChanged();
 
 	ComboBox pluginsCombobox_;
 	Label pluginsComboBoxLabel_;
@@ -45,5 +47,4 @@ private:
 	std::shared_ptr<KnownPluginList> knownPlugins_;
 	AudioProcessorEditor *pluginEditor_ = nullptr;	
 
-	int currentPluginId_ = 0;
 };

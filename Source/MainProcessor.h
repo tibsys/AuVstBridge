@@ -61,6 +61,19 @@ public:
 		processorLayoutsChanged();
 	}
 	AudioPluginInstance* getPluginInstance() const { return pluginInstance_; }
+	//==============================================================================
+	void setCurrentEditorDimension(std::pair<int,int> dimension) {
+		if (pluginInstance_ != nullptr) {
+			editorsDimension_[pluginInstance_->getPluginDescription().uid] = std::pair<int, int>(dimension.first, dimension.second);
+		}
+	}
+	std::pair<int, int> getCurrentEditorDimension() {
+		if (pluginInstance_ != nullptr) {
+			return editorsDimension_[pluginInstance_->getPluginDescription().uid];
+		} 
+		return std::pair<int, int>();
+	}
+	//==============================================================================
 
 private:
     //==============================================================================
@@ -81,4 +94,7 @@ private:
 	
 	bool pluginInitialized_ = false;
 	bool graphReady_ = false;
+
+	//Workaround for plugin editor size recording (to be improved)
+	std::map<int, std::pair<int, int>> editorsDimension_;
 };

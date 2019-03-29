@@ -32,7 +32,7 @@ private:
 		DebugTools::log(std::stringstream() << "VST3 search path: " << vst3Format.getDefaultLocationsToSearch().toString());
 		PluginDirectoryScanner scanner(*list, vst3Format, vst3Format.getDefaultLocationsToSearch(), true, File());
 
-		String pluginName;
+		String pluginName; 
 		while (true) {
 			String nextname = scanner.getNextPluginFileThatWillBeScanned();
             if (nextname.equalsIgnoreCase(JucePlugin_Name)) {

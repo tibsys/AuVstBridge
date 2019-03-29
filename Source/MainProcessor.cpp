@@ -289,16 +289,21 @@ void MainProcessor::updateGraph()
 	}
 	
 	//Remove all existing nodes
-	for (auto node : audioProcessorGraph_->getNodes()) {
+	/*for (auto node : audioProcessorGraph_->getNodes()) {
 		audioProcessorGraph_->removeNode(node);
-	}
-
-	pluginNode_ = audioProcessorGraph_->addNode(pluginInstance_);
+	}	
 	
 	//Remove all existing connections
 	for (auto connection : audioProcessorGraph_->getConnections()) {
 		audioProcessorGraph_->removeConnection(connection);
-	}
+	}*/
+
+	audioProcessorGraph_->clear();
+	audioInputNode_ = audioProcessorGraph_->addNode(new AudioGraphIOProcessor(AudioGraphIOProcessor::audioInputNode));
+	audioOutputNode_ = audioProcessorGraph_->addNode(new AudioGraphIOProcessor(AudioGraphIOProcessor::audioOutputNode));
+	midiInputNode_ = audioProcessorGraph_->addNode(new AudioGraphIOProcessor(AudioGraphIOProcessor::midiInputNode));
+	midiOutputNode_ = audioProcessorGraph_->addNode(new AudioGraphIOProcessor(AudioGraphIOProcessor::midiOutputNode));
+	pluginNode_ = audioProcessorGraph_->addNode(pluginInstance_);
 
 	//Reset plugin config details and prepare to play
 	pluginInstance_->setPlayConfigDetails(getMainBusNumInputChannels(), getMainBusNumOutputChannels(), getSampleRate(), getBlockSize());	

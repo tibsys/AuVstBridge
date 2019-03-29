@@ -4,7 +4,7 @@
               pluginCharacteristicsValue="pluginIsMidiEffectPlugin,pluginIsSynth,pluginProducesMidiOut,pluginWantsMidiIn"
               pluginName="AU-VST-Bridge" pluginVST3Category="Filter,Instrument,Synth"
               pluginVSTCategory="kPlugCategUnknown" cppLanguageStandard="14"
-              pluginFormats="buildAU,buildVST3" pluginAUIsSandboxSafe="1" version="1.0.3"
+              pluginFormats="buildAU,buildVST3" pluginAUIsSandboxSafe="1" version="1.0.4"
               companyName="Tristan Israel" bundleIdentifier="org.tristanisrael.AuVstBridge"
               pluginDesc="This plugin can host VST (2 and 3)" pluginManufacturerCode="TIBS"
               pluginCode="TIB1" pluginChannelConfigs="{2,2}" aaxIdentifier="org.tristanisrael.AuVstBridge"

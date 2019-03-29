@@ -59,6 +59,9 @@ void ProcessorEditor::resetPluginInstance(AudioPluginInstance *pluginInstance, b
 		pluginEditor_ = pluginInstance->createEditorIfNeeded();
 		auto bc = pluginEditor_->getConstrainer();
 		addAndMakeVisible(pluginEditor_);
+
+		//We make this because when we close the editor window and we reopen it we have lost
+		//plugin's dimension and we cannot get back... So we memorize them
 		std::pair<int, int> dimensions = processor_.getCurrentEditorDimension();
 		if (dimensions.first == 0 && dimensions.second == 0) {
 			dimensions.first = bc->getMinimumWidth();
@@ -67,6 +70,11 @@ void ProcessorEditor::resetPluginInstance(AudioPluginInstance *pluginInstance, b
 		} 
 		pluginEditor_->setBounds(0, COMBOBOX_HEIGHT + SPACE_BETWEEN_COMPONENTS, dimensions.first, dimensions.second);
 		setSize(dimensions.first, COMBOBOX_HEIGHT + SPACE_BETWEEN_COMPONENTS + dimensions.second);
+
+		if (pluginEditor_->isResizable()) {
+			setResizable(true, true);	
+		}
+		
 	}
 }
 

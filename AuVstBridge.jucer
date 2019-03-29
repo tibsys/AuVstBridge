@@ -2,13 +2,14 @@
 
 <JUCERPROJECT id="X5r57q" name="VST-AU-Bridge" projectType="audioplug" jucerVersion="5.4.3"
               pluginCharacteristicsValue="pluginIsMidiEffectPlugin,pluginIsSynth,pluginProducesMidiOut,pluginWantsMidiIn"
-              pluginName="AU-VST-Bridge" pluginVST3Category="Synth" pluginVSTCategory="kPlugCategUnknown"
-              cppLanguageStandard="11" pluginFormats="buildAU,buildStandalone,buildVST3"
-              pluginAUMainType="'aumi'" pluginAUIsSandboxSafe="1" version="1.0.2"
+              pluginName="AU-VST-Bridge" pluginVST3Category="Filter,Instrument,Synth"
+              pluginVSTCategory="kPlugCategUnknown" cppLanguageStandard="14"
+              pluginFormats="buildAU,buildVST3" pluginAUIsSandboxSafe="1" version="1.0.2"
               companyName="Tristan Israel" bundleIdentifier="org.tristanisrael.AuVstBridge"
               pluginDesc="This plugin can host VST (2 and 3)" pluginManufacturerCode="TIBS"
               pluginCode="TIB1" pluginChannelConfigs="{2,2}" aaxIdentifier="org.tristanisrael.AuVstBridge"
-              companyWebsite="https://www.tibsys.com/" companyEmail="tibsys@tibsys.com">
+              companyWebsite="https://www.tibsys.com/" companyEmail="tibsys@tibsys.com"
+              pluginAUMainType="'aumu'">
   <MAINGROUP id="MHnwT5" name="VST-AU-Bridge">
     <GROUP id="{1F68E7AE-4814-2834-D64E-A5724D78EBB1}" name="Source">
       <FILE id="mIYowT" name="DebugTools.h" compile="0" resource="0" file="Source/DebugTools.h"/>
@@ -91,7 +92,7 @@
     <MODULE id="juce_opengl" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
   </MODULES>
   <LIVE_SETTINGS>
-    <OSX buildEnabled="1"/>
+    <OSX buildEnabled="0"/>
     <WINDOWS/>
   </LIVE_SETTINGS>
   <JUCEOPTIONS JUCE_VST3_CAN_REPLACE_VST2="0" JUCE_STRICT_REFCOUNTEDPOINTER="1"

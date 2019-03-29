@@ -1,13 +1,3 @@
-/*
-  ==============================================================================
-
-    This file was auto-generated!
-
-    It contains the basic framework code for a JUCE plugin processor.
-
-  ==============================================================================
-*/
-
 #include "MainProcessor.h"
 #include "ProcessorEditor.h"
 
@@ -101,10 +91,10 @@ void MainProcessor::processBlock(AudioBuffer<float>& buffer, MidiBuffer& midiMes
 		buffer.clear(i, 0, buffer.getNumSamples());
 	}
 
-	/*if(pluginInitialized_) 
-		audioProcessorGraph_->processBlock(buffer, midiMessages);*/
-	if(pluginInitialized_) 
-		pluginInstance_->processBlock(buffer, midiMessages);
+	if(pluginInitialized_)
+		audioProcessorGraph_->processBlock(buffer, midiMessages);
+	/*if(pluginInitialized_)
+		pluginInstance_->processBlock(buffer, midiMessages);*/
 }
 
 void MainProcessor::releaseResources()

@@ -20,3 +20,5 @@ Workflow: CONFIRMED (means reproduced) -> FIXED (means action taken) -> RESOLVED
 - [AU] when reloaded in MainStage, plugin settings are OK but there is not editor ** RESOLVED v1.0.3 **
 - [AU] crash when changing plugin hosted in Mainstage ** FIXED v1.0.4 **
 - [AU] Spicy Guitar plugin editor is outside our plugin editor's area ** CONFIRMED v1.0.4 **
+- [All] Write documentation
+- [All] Finalise README.md (details about project and files) 

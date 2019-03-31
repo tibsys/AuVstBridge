@@ -1,6 +1,6 @@
 # AU-VST-Bridge
 
-*Current version*: 1.0.4
+**Current version**: 1.0.4
 
 Do you have VST plugins you really want to use in MainStage or GarageBand but you can't because they won't load VST plugins? AU-VST-Bridge is an Audio Unit plugin which can host VST (2 and 3) plugin. 
 

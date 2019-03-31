@@ -19,4 +19,4 @@ Workflow: CONFIRMED (means reproduced) -> FIXED (means action taken) -> RESOLVED
 - [All] dimensions of the editor are strange when opened the second time ** CONFIRMED v1.0.3 **
 - [AU] when reloaded in MainStage, plugin settings are OK but there is not editor ** RESOLVED v1.0.3 **
 - [AU] crash when changing plugin hosted in Mainstage ** FIXED v1.0.4 **
-- [AU] Spicy Guitar editor is outside the plugin editor's area
+- [AU] Spicy Guitar plugin editor is outside our plugin editor's area ** CONFIRMED v1.0.4 **

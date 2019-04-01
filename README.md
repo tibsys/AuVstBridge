@@ -48,3 +48,4 @@ Workflow: CONFIRMED (means reproduced) -> FIXED (means action taken) -> RESOLVED
 - [AU] Spicy Guitar plugin editor is outside our plugin editor's area ** CONFIRMED v1.0.4 **
 - [All] Write documentation
 - [All] Finalise README.md (details about project and files) 
+- [All] defines plugin in categories synth and effects (and maybe others?)
